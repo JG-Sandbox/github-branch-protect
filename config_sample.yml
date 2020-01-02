@@ -1,0 +1,4 @@
+github_auth_token: <your GitHub Auth Token here>
+github_user: <the user to notify when branch protections are added>
+github_org: <the slug of the org to automatically add branch protection for>
+github_secret: <your GitHub secret that matches GitHub Webhook settings>
