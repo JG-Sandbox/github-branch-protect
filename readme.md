@@ -13,15 +13,15 @@ For more on branch protection, see [GitHub Enterprise Server docs](https://help.
 * a GitHub account
 * a GitHub Organization (you can create one for free)
 
-* You need Admin permissions for the Organization that you want to use this app with.
+* You need Admin permissions for the Organization that you want to use with this app.
 
 ## Setup
 
-1. Install required ruby version (we recommend using `rvm` or `rbenv` to manage your ruby versions)
+1. Install the required ruby version (see Gemfile).
 
-1. run `bundle install`
+1. Run `bundle install`.
 
-1. create a new `config.yml` file in the project root that specifies the settings found in `config_sample.yml`.
+1. Create a new `config.yml` file in the project root that specifies the settings found in `config_sample.yml`.
 
    *Add relevant configuration settings for your GitHub Auth token, username, org name, and secret!*
 
@@ -29,17 +29,19 @@ For more on branch protection, see [GitHub Enterprise Server docs](https://help.
 
    *Your service is now live at `localhost:4567`. Note that you will need a public URL to receive GitHub Webhook requests from GitHub.com. For GitHub.com Webhooks in a local environment, consider [ngrok](https://ngrok.com/).*
 
-   *Note: If your app crashes with a message like "…<module:Middleware>': uninitialized constant Faraday::Error::ClientError (NameError) Did you mean?  Faraday::ClientError", see the Known Issues below for a temporary fix.*
+   *Note: If your app crashes with a message like `…<module:Middleware>': uninitialized constant Faraday::Error::ClientError (NameError) Did you mean?  Faraday::ClientError`, see the Known Issues below for a temporary fix.*
 
-1. [Configure your GitHub Webhook](https://developer.github.com/webhooks/creating/) to connect with your service
+1. [Configure your GitHub Webhook](https://developer.github.com/webhooks/creating/) to connect with your service.
 
 ## Production setup
 
-This is currently a proof-of-concept that only works locally.
+This is a proof-of-concept that only works locally.
 
 ## Known Issues
 
-### App crashes when initialized due to `uninitialized constant Faraday::Error::ClientError (NameError)`
+### App crashes when initialized
+
+*due to  `uninitialized constant Faraday::Error::ClientError (NameError)`*
 
 There's an [open issue](https://github.com/octokit/octokit.rb/issues/1155) with the GitHub `octokit` gem that causes this app to crash on load when using a fresh install of the latest `octokit` gem.
 
