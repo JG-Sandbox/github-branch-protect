@@ -69,7 +69,8 @@ end
 
 # Creates a new Issue in the same repository where branch protection is being added
 # 
-# TODO: consider making this a callback add_branch_protection to handle errors
+# TODO: consider making this a callback to add_branch_protection to only create issues when the added protection
+#       is confirmed.
 #
 def create_gh_issue(repo_id, branch_name, options)
   client = Octokit::Client.new(:access_token => settings.github_auth_token)
