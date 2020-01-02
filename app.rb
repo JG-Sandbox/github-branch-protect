@@ -7,6 +7,10 @@ require 'octokit'
 config_file 'config.yml'
 
 post '/payload' do
+  request.body.rewind
+  payload_body = request.body.read
+  verify_signature(payload_body)
+
   client = Octokit::Client.new(:access_token => settings.github_auth_token)
 
   # =================================
@@ -31,7 +35,7 @@ post '/payload' do
   if request.env["HTTP_X_GITHUB_EVENT"] == "repository"
   # Only do something when receiving a payload for a repository
 
-    push = JSON.parse(request.body.read)
+    push = JSON.parse(payload_body)
     org = push.dig("organization", "login")
     action = push.dig("action")
     repo_id = push.dig("repository", "id")
@@ -49,4 +53,9 @@ post '/payload' do
           \n\n`#{protection_options.inspect}`")
     end
   end
+end
+
+def verify_signature(payload_body)
+  signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), settings.github_secret, payload_body)
+  return halt 500, "Signatures didn't match!" unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
 end
